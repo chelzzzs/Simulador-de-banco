@@ -1,41 +1,48 @@
 package contas
 
-import "fmt"
+import (
+	"banco/clientes"
+	"fmt"
+)
 
 type ContaCorrente struct {
-	Titular       string
+	Titular       clientes.Titular
 	NumeroAgencia int
 	NumeroConta   int
-	Saldo         float64
+	saldo         float64
 }
 
-func (c *ContaCorrente) sacar (valorDoSaque float64) string {
-		podeSacar := valorDoSaque > 0 && valorDoSaque <= c.Saldo
+func (c *ContaCorrente) Sacar (valorDoSaque float64) string {
+		podeSacar := valorDoSaque > 0 && valorDoSaque <= c.saldo
 		if podeSacar {
-			c.Saldo -= valorDoSaque
+			c.saldo -= valorDoSaque
 			return "Saque realizado com sucesso"
 		} else {
-				return "Saldo insuficente"
+				return "saldo insuficente"
 		}
 
 }
 
 func (c* ContaCorrente) Depositar (valorDoDeposito float64) (string, float64) {
 	if valorDoDeposito > 0 {
-		c.Saldo += valorDoDeposito
-		return "Depósito realizado com sucesso! Saldo atual:", c.Saldo
+		c.saldo += valorDoDeposito
+		return "Depósito realizado com sucesso! saldo atual:", c.saldo
 	} else {
-		return "Saldo insuficiente para depósito. Saldo atual:", c.Saldo
+		return "saldo insuficiente para depósito. saldo atual:", c.saldo
 	}
 }
 
 func (c* ContaCorrente) Transferir (valorDaTransferencia float64, contaDestino *ContaCorrente) (bool) {
-	if valorDaTransferencia < c.Saldo && valorDaTransferencia > 0 {
-		c.Saldo -= valorDaTransferencia
+	if valorDaTransferencia < c.saldo && valorDaTransferencia > 0 {
+		c.saldo -= valorDaTransferencia
 		contaDestino.Depositar(valorDaTransferencia)
 		return true
 	} else {
-		fmt.Println("Você não tem Saldo suficente para realizar essa tranferência.")
+		fmt.Println("Você não tem saldo suficente para realizar essa tranferência.")
 		return false
 	}
 } 
+
+func (c* ContaCorrente) ObterSaldo() float64 {
+return c.saldo
+}
