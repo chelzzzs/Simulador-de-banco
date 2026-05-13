@@ -7,8 +7,7 @@ import (
 
 type ContaCorrente struct {
 	Titular       clientes.Titular
-	NumeroAgencia int
-	NumeroConta   int
+	NumeroAgencia, NumeroConta int
 	saldo         float64
 }
 
